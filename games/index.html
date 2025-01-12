@@ -1,4 +1,58 @@
 <!DOCTYPE html>
 <html lang="zh">
-<!-- 这里是之前的游戏列表代码 -->
+<head>
+    <meta charset="UTF-8">
+    <title>游戏列表</title>
+    <style>
+        .game-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+        }
+        
+        .game-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .game-card a {
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .game-card img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .game-title {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-list">
+        <div class="game-card">
+            <a href="./tetris.html">
+                <img src="/images/tetris-preview.png" alt="俄罗斯方块">
+                <div class="game-title">俄罗斯方块</div>
+            </a>
+        </div>
+        <!-- 这里可以继续添加更多游戏卡片 -->
+    </div>
+</body>
 </html> 

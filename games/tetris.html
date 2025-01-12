@@ -55,6 +55,17 @@
     </div>
 
     <script>
+        // 阻止游戏中使用的所有按键的默认行为
+        window.addEventListener('keydown', function(e) {
+            if(e.code === 'Space' || 
+               e.code === 'ArrowUp' || 
+               e.code === 'ArrowDown' || 
+               e.code === 'ArrowLeft' || 
+               e.code === 'ArrowRight') {
+                e.preventDefault();
+            }
+        });
+        
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const BLOCK_SIZE = 30;
