@@ -27,6 +27,44 @@
             margin-top: 10px;
             color: #666;
         }
+        .virtual-controls {
+            display: none;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .control-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 5px 0;
+        }
+        
+        .virtual-controls button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background-color: rgba(0, 0, 0, 0.1);
+            font-size: 20px;
+            touch-action: manipulation;
+        }
+        
+        .virtual-controls button:active {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .virtual-controls {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            canvas {
+                max-width: 100%;
+                height: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -52,6 +90,20 @@
         ↓ : 加速下落<br>
         空格 : 硬降落<br>
         P键 : 暂停/继续
+    </div>
+    <div class="virtual-controls">
+        <div class="control-row">
+            <button id="rotateBtn">旋转</button>
+        </div>
+        <div class="control-row">
+            <button id="leftBtn">←</button>
+            <button id="downBtn">↓</button>
+            <button id="rightBtn">→</button>
+        </div>
+        <div class="control-row">
+            <button id="dropBtn">硬降</button>
+            <button id="pauseBtn">暂停</button>
+        </div>
     </div>
 
     <script>
@@ -325,6 +377,58 @@
         });
 
         requestAnimationFrame(gameLoop);
+
+        // 虚拟按键控制
+        document.getElementById('rotateBtn').addEventListener('click', () => {
+            if (!gameOver && !isPaused) {
+                rotate(currentPiece);
+            }
+        });
+
+        document.getElementById('leftBtn').addEventListener('click', () => {
+            if (!gameOver && !isPaused && !collision(currentPiece, -1, 0)) {
+                currentPiece.x--;
+            }
+        });
+
+        document.getElementById('rightBtn').addEventListener('click', () => {
+            if (!gameOver && !isPaused && !collision(currentPiece, 1, 0)) {
+                currentPiece.x++;
+            }
+        });
+
+        document.getElementById('downBtn').addEventListener('click', () => {
+            if (!gameOver && !isPaused && !collision(currentPiece, 0, 1)) {
+                currentPiece.y++;
+                dropCounter = 0;
+            }
+        });
+
+        document.getElementById('dropBtn').addEventListener('click', () => {
+            if (!gameOver && !isPaused) {
+                while (!collision(currentPiece, 0, 1)) {
+                    currentPiece.y++;
+                    score += 2;
+                }
+                document.getElementById('score').textContent = score;
+            }
+        });
+
+        document.getElementById('pauseBtn').addEventListener('click', () => {
+            if (!gameOver) {
+                isPaused = !isPaused;
+                if (!isPaused) {
+                    requestAnimationFrame(gameLoop);
+                }
+            }
+        });
+
+        // 防止按钮触摸时页面滚动
+        document.querySelectorAll('.virtual-controls button').forEach(button => {
+            button.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+            });
+        });
     </script>
 </body>
 </html>
